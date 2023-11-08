@@ -3,17 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:24:48 by antoine           #+#    #+#             */
-/*   Updated: 2023/11/07 14:32:09 by antoine          ###   ########.fr       */
+/*   Updated: 2023/11/08 10:11:49 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFFER_SIZE 200
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 200
+# endif
+# include <unistd.h>
+# include <stdlib.h>
 
-char *get_next_line(int fd);
+typedef struct s_buff {
+	char	content[BUFFER_SIZE];
+	ssize_t	len;
+	size_t	cursor;
+}	t_buff;
+
+char	*get_next_line(int fd);
+char	*caldupcat(char *origin, char *add, size_t origin_len, size_t add_len);
 
 #endif
