@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:31:39 by antoine           #+#    #+#             */
-/*   Updated: 2023/11/08 10:53:12 by averin           ###   ########.fr       */
+/*   Updated: 2023/11/08 15:05:44 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*caldupcat(char *origin, char *add, size_t origin_len, size_t add_len)
 	char	*r;
 	size_t	i;
 
-	r = (char *) malloc((origin_len + add_len + 1) * sizeof(char));
+	r = (char *) calloc(origin_len + add_len + 1, sizeof(char));
 	if (r == NULL)
 		return (NULL);
 	i = -1;
@@ -54,5 +54,6 @@ char	*caldupcat(char *origin, char *add, size_t origin_len, size_t add_len)
 	while (++i < origin_len + add_len)
 		r[i] = add[i - origin_len];
 	r[i] = '\0';
+	free(origin);
 	return (r);
 }

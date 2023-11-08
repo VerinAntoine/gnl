@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:24:48 by antoine           #+#    #+#             */
-/*   Updated: 2023/11/08 10:11:49 by averin           ###   ########.fr       */
+/*   Updated: 2023/11/08 13:14:06 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_buff {
 }	t_buff;
 
 char	*get_next_line(int fd);
+void	*ft_calloc(size_t nmemb, size_t size);
 char	*caldupcat(char *origin, char *add, size_t origin_len, size_t add_len);
 
 #endif
