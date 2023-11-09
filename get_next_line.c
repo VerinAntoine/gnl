@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:31:35 by antoine           #+#    #+#             */
-/*   Updated: 2023/11/09 10:35:38 by averin           ###   ########.fr       */
+/*   Updated: 2023/11/09 11:12:38 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,17 @@ ssize_t	process_buffer(char **line, t_buff **buff, size_t *line_len, int fd)
 	ssize_t	readed;
 
 	readed = line_length((*buff)->content, (*buff)->cursor);
-	if (readed == -1) {
-		*line = caldupcat(*line, (*buff)->content + (*buff)->cursor, *line_len, BUFFER_SIZE - (*buff)->cursor + 1);
+	if (readed == -1)
+	{
+		*line = caldupcat(*line, (*buff)->content + (*buff)->cursor, *line_len,
+				BUFFER_SIZE - (*buff)->cursor + 1);
 		*line_len += BUFFER_SIZE - (*buff)->cursor;
 		*buff = fill_buff(fd, *buff);
 	}
 	else
 	{
-		*line = caldupcat(*line, (*buff)->content + (*buff)->cursor, *line_len, readed + 1);
+		*line = caldupcat(*line, (*buff)->content + (*buff)->cursor, *line_len,
+				readed + 1);
 		*line_len += readed;
 		(*buff)->cursor += readed + 1;
 	}
@@ -73,7 +76,8 @@ char	*get_next_line(int fd)
 	line_len = 0;
 	while (buff != NULL && process_buffer(&line, &buff, &line_len, fd) == -1)
 	{
-		if (buff != NULL && buff->content[buff->cursor] == '\0') {
+		if (buff != NULL && buff->content[buff->cursor] == '\0')
+		{
 			free(buff);
 			buff = NULL;
 		}
