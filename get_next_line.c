@@ -6,24 +6,22 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:31:35 by antoine           #+#    #+#             */
-/*   Updated: 2023/11/08 15:18:27 by averin           ###   ########.fr       */
+/*   Updated: 2023/11/09 10:35:38 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
-#include <fcntl.h>
 
-t_buff	*fill_buff(int fd)
+t_buff	*fill_buff(int fd, t_buff *buff)
 {
-	t_buff	*buff;
-
-	buff = (t_buff *) calloc(1, sizeof(t_buff));
+	if (buff != NULL)
+		free(buff);
+	buff = (t_buff *) ft_calloc(1, sizeof(t_buff));
 	if (buff == NULL)
 		return (NULL);
 	buff->len = read(fd, buff->content, BUFFER_SIZE);
 	buff->cursor = 0;
-	if (buff->len == 0)
+	if (buff->len == 0 || buff->len == -1)
 	{
 		free(buff);
 		return (NULL);
@@ -31,7 +29,7 @@ t_buff	*fill_buff(int fd)
 	return (buff);
 }
 
-ssize_t	read_line(char *s, size_t start)
+ssize_t	line_length(char *s, size_t start)
 {
 	size_t	i;
 
@@ -42,58 +40,43 @@ ssize_t	read_line(char *s, size_t start)
 	return (-1);
 }
 
+ssize_t	process_buffer(char **line, t_buff **buff, size_t *line_len, int fd)
+{
+	ssize_t	readed;
+
+	readed = line_length((*buff)->content, (*buff)->cursor);
+	if (readed == -1) {
+		*line = caldupcat(*line, (*buff)->content + (*buff)->cursor, *line_len, BUFFER_SIZE - (*buff)->cursor + 1);
+		*line_len += BUFFER_SIZE - (*buff)->cursor;
+		*buff = fill_buff(fd, *buff);
+	}
+	else
+	{
+		*line = caldupcat(*line, (*buff)->content + (*buff)->cursor, *line_len, readed + 1);
+		*line_len += readed;
+		(*buff)->cursor += readed + 1;
+	}
+	return (readed);
+}
+
 char	*get_next_line(int fd)
 {
 	static t_buff	*buff;
 	char			*line;
 	size_t			line_len;
-	ssize_t			readed;
 
-	if (buff == NULL || buff->cursor == BUFFER_SIZE)
-		buff = fill_buff(fd);
-	if (buff == NULL || buff->len == -1 || buff->len == 0)
+	if (buff == NULL || buff->cursor >= buff->len)
+		buff = fill_buff(fd, buff);
+	if (buff == NULL)
 		return (NULL);
 	line = calloc(1, sizeof(char));
 	line_len = 0;
-	readed = -1;
-	while (readed == -1)
+	while (buff != NULL && process_buffer(&line, &buff, &line_len, fd) == -1)
 	{
-		readed = read_line(buff->content, buff->cursor);
-		if (readed == -1) // end of line
-		{
-			line = caldupcat(line, buff->content + buff->cursor, line_len, BUFFER_SIZE - buff->cursor + 1);
-			line_len += BUFFER_SIZE - buff->cursor;
-			free(buff);
-			buff = fill_buff(fd);
-		}
-		else
-		{
-			line = caldupcat(line, buff->content + buff->cursor, line_len, readed + 1);
-			line_len += readed;
-			buff->cursor += readed + 1;
-		}
-		if (buff->content[buff->cursor] == '\0') {
+		if (buff != NULL && buff->content[buff->cursor] == '\0') {
 			free(buff);
 			buff = NULL;
 		}
 	}
 	return (line);
 }
-
-// int main(int argc, char **argv)
-// {
-// 	int		fd;
-// 	char	*line;
-
-// 	fd = 0;
-// 	if (argc >= 2)
-// 		fd = open(argv[1], O_RDONLY);
-// 	printf("fd: %d\n", fd);
-// 	while (line != NULL)
-// 	{
-// 		line = get_next_line(fd);
-// 		printf(".%s", line);
-// 		free(line);
-// 	}
-// 	close(fd);
-// }

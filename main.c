@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/07 14:24:48 by antoine           #+#    #+#             */
-/*   Updated: 2023/11/09 08:51:47 by averin           ###   ########.fr       */
+/*   Created: 2023/11/09 09:43:36 by averin            #+#    #+#             */
+/*   Updated: 2023/11/09 09:43:52 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 200
-# endif
-# include <unistd.h>
-# include <stdlib.h>
+#include "get_next_line.h"
+#include <stdio.h>
+#include <fcntl.h>
 
-typedef struct s_buff {
-	char	content[BUFFER_SIZE];
-	ssize_t	len;
-	ssize_t	cursor;
-}	t_buff;
+int main(int argc, char **argv)
+{
+	int		fd;
+	char	*line;
 
-char	*get_next_line(int fd);
-void	*ft_calloc(size_t nmemb, size_t size);
-char	*caldupcat(char *origin, char *add, size_t origin_len, size_t add_len);
-
-#endif
+	fd = 0;
+	if (argc >= 2)
+		fd = open(argv[1], O_RDONLY);
+	printf("fd: %d\tbuffer_size: %d\n", fd, BUFFER_SIZE);
+	line = get_next_line(fd);
+	while (line != NULL)
+	{
+		printf(".%s", line);
+		free(line);
+		line = get_next_line(fd);
+	}
+	close(fd);
+}
