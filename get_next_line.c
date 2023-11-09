@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 14:31:35 by antoine           #+#    #+#             */
-/*   Updated: 2023/11/09 11:12:38 by averin           ###   ########.fr       */
+/*   Updated: 2023/11/09 11:44:24 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*get_next_line(int fd)
 		buff = fill_buff(fd, buff);
 	if (buff == NULL)
 		return (NULL);
-	line = calloc(1, sizeof(char));
+	line = malloc(1 * sizeof(char));
 	line_len = 0;
 	while (buff != NULL && process_buffer(&line, &buff, &line_len, fd) == -1)
 	{
