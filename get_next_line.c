@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:41:59 by averin            #+#    #+#             */
-/*   Updated: 2023/11/15 13:43:07 by averin           ###   ########.fr       */
+/*   Updated: 2023/11/15 13:53:40 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 char	*get_next_line(int fd)
 {
-	
+	static char	buffer[BUFFER_SIZE];
 }
