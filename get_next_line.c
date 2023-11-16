@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:41:59 by averin            #+#    #+#             */
-/*   Updated: 2023/11/15 16:49:08 by averin           ###   ########.fr       */
+/*   Updated: 2023/11/16 12:29:39 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	line = NULL;
-	// while (!buffer[0] && read_file(fd, (char **) &buffer))
-	while (read_file(fd, (char **) &buffer) && !is_valid(line))
+	process = NULL;
+	while (!is_valid(line) && read_file(fd, (char **) &buffer))
 	{
-		process = process_line(buffer);
+		process = process_buffer(buffer); //! Can return null
 		if (!process)
-			return (NULL); //! line to free
+			return (free(line), NULL); //! line to free
 		if (line)
 			line = ft_strcat(line, process); //! can be null
 		else 
@@ -53,7 +53,7 @@ int	read_file(int fd, char **buffer)
 	return (TRUE);
 }
 
-char	*process_line(char *buffer)
+char	*process_buffer(char *buffer)
 {
 	char	*line;
 	size_t	len;
@@ -64,9 +64,9 @@ char	*process_line(char *buffer)
 	if (!line)
 		return (NULL);
 	i = -1;
-	while (++i <= len)
+	while (++i < len)
 		line[i] = buffer[i];
 	line[i] = '\0';
-	ft_shift_str(buffer, len + 1, BUFFER_SIZE); //! could ko when len == BUFFER_SIZE
+	ft_shift_str(buffer, len, BUFFER_SIZE); //! could ko when len == BUFFER_SIZE
 	return (line);
 }

@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:42:12 by averin            #+#    #+#             */
-/*   Updated: 2023/11/15 16:19:55 by averin           ###   ########.fr       */
+/*   Updated: 2023/11/16 08:46:17 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ size_t	find_end_line(char *s)
 	while (s[++i] && i < BUFFER_SIZE)
 	{
 		if (s[i] == '\n')
-			return (i);
+			return (i + 1);
 	}
 	if (s[i])
 		return (i - 1); //! to test don't copy \0
@@ -67,7 +67,7 @@ char	*ft_strcat(char *s1, char *s2)
 	i = -1;
 	s1_len = ft_strlen(s1);
 	s2_len = ft_strlen(s2);
-	str = ft_calloc(s1_len + s2_len, sizeof(char));
+	str = ft_calloc(s1_len + s2_len + 1, sizeof(char));
 	if (!str)
 		return (NULL);
 	while (++i < s1_len)
@@ -75,6 +75,7 @@ char	*ft_strcat(char *s1, char *s2)
 	--i;
 	while (++i < s1_len + s2_len)
 		str[i] = s2[i - s1_len];
+	str[i] = '\0';
 	free(s1); //? MIND
 	free(s2);
 	return (str);
