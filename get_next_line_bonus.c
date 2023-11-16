@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:41:59 by averin            #+#    #+#             */
-/*   Updated: 2023/11/16 14:04:23 by averin           ###   ########.fr       */
+/*   Updated: 2023/11/16 14:03:37 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_next_line(int fd)
 {
-	static char	buffer[BUFFER_SIZE];
+	static char	buffer[FD_MAX][BUFFER_SIZE];
 	char		*process;
 	char		*line;
 
 	line = NULL;
 	process = NULL;
-	while (!is_valid(line) && read_file(fd, (char **) &buffer))
+	while (!is_valid(line) && read_file(fd, (char **) &(buffer[fd])))
 	{
-		process = process_buffer(buffer);
+		process = process_buffer(buffer[fd]);
 		if (!process)
 			return (free(line), NULL);
 		if (line)

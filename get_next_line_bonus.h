@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:42:36 by averin            #+#    #+#             */
-/*   Updated: 2023/11/16 14:04:00 by averin           ###   ########.fr       */
+/*   Updated: 2023/11/16 13:56:02 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # define FALSE 0
 # define TRUE 1
+# define FD_MAX 300
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 200
 # endif
