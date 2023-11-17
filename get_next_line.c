@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:41:59 by averin            #+#    #+#             */
-/*   Updated: 2023/11/16 14:04:23 by averin           ###   ########.fr       */
+/*   Updated: 2023/11/17 10:49:08 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*get_next_line(int fd)
 			if (!line)
 				return (NULL);
 		}
-		else 
+		else
 			line = process;
 	}
 	return (line);
@@ -51,7 +51,7 @@ int	read_file(int fd, char **buffer)
 	if (!buffer[0])
 	{
 		readed = read(fd, buffer, BUFFER_SIZE);
-		if(readed <= 0)
+		if (readed <= 0)
 			return (FALSE);
 	}
 	return (TRUE);
