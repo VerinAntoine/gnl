@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:41:59 by averin            #+#    #+#             */
-/*   Updated: 2023/11/17 10:50:33 by averin           ###   ########.fr       */
+/*   Updated: 2023/11/17 17:11:53 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*get_next_line(int fd)
 	char		*process;
 	char		*line;
 
+	if (fd < 0 || fd > FD_MAX)
+		return (NULL);
 	line = NULL;
 	process = NULL;
 	while (!is_valid(line) && read_file(fd, (char **) &(buffer[fd])))
